@@ -6,6 +6,9 @@ farg = sys.argv[1]
 texFile = open(farg,'r')
 doc = texFile.readlines()
 
+def db():
+    print("here")
+
 # What I want to do:
 #     I want to make a tool that:
 #     splits up paragraps based off of sentences
@@ -35,38 +38,30 @@ doc = rmDs(doc)
 
 def indent(lines):
     out = []
-    currentLevel = ''
     commands = ["\\section","\\subsection", "\\subsubsection"]
-    indentLevel = 0
     beginStack = []
+    beginIndent = 0
+    commandIndent = 0
+    keep = 0
     for line in lines:
-        # First indent
-        indt = ""
-        for i in range(indentLevel):
-            indt += "\t"
-        out.append(indt + line)
-        
-        # Then check how we should indent next line
-        for i in range(len(commands)):
-            res = line.find(commands[i])
-            # If there is an indent command
-            if res != -1:
-                currentLevel = commands[res]
-                indentLevel = i+1
-                break
-            
+        for command in commands:
+            if command in line:
+                commandIndent = commands.index(command)
+
+        keep = 0
         # If there is a begin command
-        if "begin" in line:
-            beginStack.append(indentLevel)
-            indentLevel += 1
+        if "\\begin" in line:
+            beginStack.append(commandIndent)
+            commandIndent += 1
+            keep = 1
         # If there is an end command
         if "\\end" in line:
-            indentLevel = beginStack.pop()
-            out.pop()
-            indt = ""
-            for i in range(indentLevel):
-                indt += "\t"
-            out.append(indt +line)
+            commandIndent = beginStack.pop()
+
+        indt = ""
+        for i in range(commandIndent - keep):
+            indt += '\t'
+        out.append( indt+ line)
     return out
     
 doc = indent(doc)
