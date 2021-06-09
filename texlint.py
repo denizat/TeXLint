@@ -37,7 +37,7 @@ doc = rmDs(doc)
 def indent(lines):
     out = []
     currentLevel = ''
-    commands = ["\\section","\\subsection"]
+    commands = ["\\section","\\subsection", "\\subsubsection"]
     indentLevel = 0
     beginStack = []
     for line in lines:
@@ -74,7 +74,8 @@ doc = indent(doc)
 
 
 
-l = open("out.tex","w")
+outFile = sys.argv[2]
+l = open(outFile,"w")
 l.writelines(doc)
 l.close()
 
