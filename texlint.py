@@ -67,6 +67,10 @@ def indent(lines):
         if "\\end" in line:
             commandIndent = beginStack.pop()
 
+        # Dont indent commands other than \item
+        if"\\" in line and not "\\item" in line:
+            keep = 1
+
         indt = ""
         for i in range(commandIndent - keep):
             indt += '\t'
