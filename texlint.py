@@ -25,8 +25,6 @@ doc = rmWs(doc)
 # This removes all double spaces
 def rmDs(lines):
     out = ['']
-    newline = False
-    # for i in range(len(lines)-1):
     for line in lines:
         if line != "\n" or out[-1] != "\n":
             out.append(line)
