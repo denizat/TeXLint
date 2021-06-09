@@ -42,13 +42,22 @@ def indent(lines):
     beginStack = []
     beginIndent = 0
     commandIndent = 0
+    lastIndex = 0
     keep = 0
     for line in lines:
+        keep = 0
         for command in commands:
             if command in line:
-                commandIndent = commands.index(command)
+                index = commands.index(command)
+                if index > lastIndex:
+                    commandIndent += 1
+                elif index < lastIndex: 
+                    commandIndent -= 1
+                # commandIndent = commands.index(command) + 1
+                lastIndex = index
+                keep = 1
+                break
 
-        keep = 0
         # If there is a begin command
         if "\\begin" in line:
             beginStack.append(commandIndent)
