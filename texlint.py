@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import sys
 
 farg = sys.argv[1]
